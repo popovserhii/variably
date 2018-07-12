@@ -1,0 +1,26 @@
+{
+  "name": "popov/variably",
+  "description": "The powerful, simple and fast engine for handle variables in string",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "string handle",
+    "mail template"
+  ],
+  "authors": [
+    {
+      "name": "Serhii Popov",
+      "email": "popow.sergiy@gmail.com",
+      "homepage": "http://stagem.com.ua/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Popov\\Variably\\": "src/"
+    }
+  }
+}
