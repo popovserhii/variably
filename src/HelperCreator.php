@@ -1,0 +1,102 @@
+<?php
+/**
+ * The MIT License (MIT)
+ * Copyright (c) 2018 Serhii Popov
+ * This source file is subject to The MIT License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/MIT
+ *
+ * @category Popov
+ * @package Popov_Variably
+ * @author Serhii Popov <popow.serhii@gmail.com>
+ * @license https://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
+namespace Popov\Variably;
+
+use Popov\Variably\Helper;
+use Psr\Container\ContainerInterface;
+
+class HelperCreator
+{
+    /** @var ContainerInterface */
+    protected $container;
+
+    /** @var array */
+    protected $config = [];
+
+    protected $helpers = [
+        'IntFilter' => Helper\FilterInt::class,
+        'FloatFilter' => Helper\FilterFloat::class,
+        'ShiftFilter' => Helper\FilterShift::class,
+        'PopFilter' => Helper\FilterPop::class,
+        'ExplodeFilter' => Helper\FilterExplode::class,
+        'ReplaceFilter' => Helper\FilterReplace::class,
+        'MappingFilter' => Helper\FilterMapping::class,
+        'DateNativeFilter' => Helper\FilterDateNative::class,
+        'TrimFilter' => Helper\FilterTrim::class,
+        'PercentToIntFilter' => Helper\FilterPercentToInt::class,
+
+        'WatchChangePrepare' => Helper\PrepareWatchChange::class,
+    ];
+
+    public function __construct(ContainerInterface $container = null, array $config = null)
+    {
+        //$config = isset($config['importer']) ? $config['importer'] : $config;
+
+        $config['helpers'] = array_merge($this->helpers, (isset($config['helpers']) ? $config['helpers']: []));
+
+        $this->container = $container;
+        $this->config = $config;
+    }
+
+    public function setConfig($config)
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    //public function create($name, $type)
+    public function create($helperName)
+    {
+        //$helperName = ucfirst($name) . ucfirst($type);
+        if (isset($this->config['helpers'][$helperName])) {
+            $helperName = $this->config['helpers'][$helperName];
+        }
+
+        $helper = $this->createHelper($helperName);
+
+        return $helper;
+    }
+
+    /**
+     * Create driver using Container or "new" operator
+     *
+     * @param string $helperName
+     * @return mixed
+     */
+    protected function createHelper($helperName)
+    {
+        return isset($this->container)
+            ? $this->container->get($helperName)
+            : new $helperName();
+    }
+
+    /**
+     * Get standardizes config key
+     *
+     * @param $key
+     * @return string
+     */
+    protected function getConfigKey($key)
+    {
+        return strtolower(preg_replace("/[^A-Za-z0-9]/", '', $key));
+    }
+}

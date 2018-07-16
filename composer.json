@@ -16,7 +16,8 @@
     }
   ],
   "require": {
-    "php": "^7.0"
+    "php": "^7.0",
+    "maciejczyzewski/bottomline": "*"
   },
   "autoload": {
     "psr-4": {
