@@ -106,7 +106,7 @@ class ConfigHandler
                     $helper->mergeConfig($prepare['config'])
                         ->mergeConfig(['params' => $prepare['params']]);
                 }
-                $helper->prepare($value);
+                $value = $helper->prepare($value);
             }
         }
 

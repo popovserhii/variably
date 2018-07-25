@@ -33,9 +33,11 @@ class HelperCreator
         'PopFilter' => Helper\FilterPop::class,
         'ExplodeFilter' => Helper\FilterExplode::class,
         'ReplaceFilter' => Helper\FilterReplace::class,
+        'ConcatFilter' => Helper\FilterConcat::class,
         'MappingFilter' => Helper\FilterMapping::class,
         'DateNativeFilter' => Helper\FilterDateNative::class,
         'TrimFilter' => Helper\FilterTrim::class,
+        'HtmlEntityDecodeFilter' => Helper\FilterHtmlEntityDecode::class,
         'PercentToIntFilter' => Helper\FilterPercentToInt::class,
 
         'WatchChangePrepare' => Helper\PrepareWatchChange::class,

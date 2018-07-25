@@ -49,23 +49,23 @@ class PrepareWatchChange extends HelperAbstract implements PrepareInterface
         //$aggregateField = $params['field'] ?? $params[1];
 
         // If there is no similar row in databases
-        if (!($originRow = $importer->getRealRow($fields, $table))) {
+        if (!($originRows = $importer->getRealRow($fields, $table))) {
             return json_encode([]);
         }
-
+        $originRow = $originRows[0];
 
         $aggregated = json_decode($originRow[$aggregateField], true);
         $diff = [];
         foreach ($fields as $field => $value) {
             if (!in_array($field, $ignore) && isset($originRow[$field]) && ($originRow[$field] != $value)) {
                 //$diff['operation'][] = sprintf('%s: %s -> %s', $field, $originRow[$field], $value);
-                $diff['operation'][$field] = [$originRow[$field], $value];
+                $diff['modification'][$field] = [$originRow[$field], $value];
             }
         }
 
         if ($diff) {
             $diff['checkedAt'] = date('Y-m-d H:i:s');
-            $aggregated[] = $aggregated;
+            $aggregated[] = $diff;
         }
 
         return json_encode($aggregated);
