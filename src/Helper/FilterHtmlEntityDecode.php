@@ -14,11 +14,12 @@ namespace Popov\Variably\Helper;
 class FilterHtmlEntityDecode extends HelperAbstract implements FilterInterface
 {
     /**
+     * @see https://stackoverflow.com/a/10328395/1335142
      * @param $value
      * @return string
      */
     public function filter($value)
     {
-        return html_entity_decode($value);
+        return html_entity_decode($value, ENT_COMPAT, 'UTF-8');
     }
 }
