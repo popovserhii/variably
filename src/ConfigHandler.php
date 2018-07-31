@@ -120,7 +120,7 @@ class ConfigHandler
             $parsed = array_merge($parsed, $helper);
         } else if (false !== ($pos = strpos($helper, ':'))) { // helper name with params
             $name = substr($helper, 0, $pos);
-            $params = substr($helper, $pos + 1) || '';
+            $params = substr($helper, $pos + 1) ?? '';
             $parsed['name'] = $name;
             $parsed['params'] = explode(',', $params);
         } else {
