@@ -38,6 +38,7 @@ class HelperCreator
         'MappingFilter' => Helper\FilterMapping::class,
         'DateNativeFilter' => Helper\FilterDateNative::class,
         'TrimFilter' => Helper\FilterTrim::class,
+        'Br2nlFilter' => Helper\FilterBr2nl::class,
         'HtmlEntityDecodeFilter' => Helper\FilterHtmlEntityDecode::class,
         'PercentToIntFilter' => Helper\FilterPercentToInt::class,
 
