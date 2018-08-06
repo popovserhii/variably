@@ -48,15 +48,25 @@ class HelperCreator
     public function __construct(ContainerInterface $container = null, array $config = null)
     {
         //$config = isset($config['importer']) ? $config['importer'] : $config;
-
-        $config['helpers'] = array_merge($this->helpers, (isset($config['helpers']) ? $config['helpers']: []));
+        //$conf = [];
+        $conf['helpers'] = isset($config['helpers']) ? $config['helpers']: [];
+        $this->mergeConfig($conf);
 
         $this->container = $container;
-        $this->config = $config;
+        //$this->config = $conf;
     }
 
     public function setConfig($config)
     {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    public function mergeConfig($config)
+    {
+        $config['helpers'] = array_merge($this->helpers, (isset($config['helpers']) ? $config['helpers']: []));
+
         $this->config = $config;
 
         return $this;

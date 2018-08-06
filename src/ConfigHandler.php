@@ -57,6 +57,7 @@ class ConfigHandler
     public function setConfig($config)
     {
         $this->globalConfig = $config;
+        $this->helperCreator->mergeConfig($config);
 
         return $this;
     }
