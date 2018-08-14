@@ -9,7 +9,7 @@
  */
 namespace Popov\Variably\Helper;
 
-class FilterPercentToInt implements FilterInterface {
+class FilterPercentToNumber implements FilterInterface {
 
 	/**
 	 * @param $num

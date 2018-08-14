@@ -40,7 +40,8 @@ class HelperCreator
         'TrimFilter' => Helper\FilterTrim::class,
         'Br2nlFilter' => Helper\FilterBr2nl::class,
         'HtmlEntityDecodeFilter' => Helper\FilterHtmlEntityDecode::class,
-        'PercentToIntFilter' => Helper\FilterPercentToInt::class,
+        'PercentToNumberFilter' => Helper\FilterPercentToNumber::class,
+        'PercentageToQuantityFilter' => Helper\FilterPercentageToQuantity::class,
 
         'WatchChangePrepare' => Helper\PrepareWatchChange::class,
     ];
