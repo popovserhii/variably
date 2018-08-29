@@ -19,7 +19,7 @@ class FilterReplace extends HelperAbstract implements FilterInterface
     {
         $params = $this->getConfig('params');
         $from = $params['from'] ?? $params[0];
-        $to = $params['to'] ?? $params[0];
+        $to = $params['to'] ?? $params[1];
 
         if (!$value) {
             $value = '';

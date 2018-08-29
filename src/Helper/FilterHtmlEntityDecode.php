@@ -1,6 +1,9 @@
 <?php
 /**
- * Html Entities decode
+ * To decode an entity into a character, html_entity_decode needs to know what encoding you'd like your character to be in.
+ * "ü" can be represented in Latin-1, UTF-8, UTF-16 and a host of other encodings.
+ * The default is Latin-1. &#8211; (–, EN DASH) cannot be represented in Latin-1. Hence it stays unchanged.
+ * Tell html_entity_decode to decode it into an encoding that can represent that character, like UTF-8:
  *
  * @category Popov
  * @package Popov_Variably

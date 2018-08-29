@@ -33,6 +33,8 @@ class HelperCreator
         'PopFilter' => Helper\FilterPop::class,
         'ExplodeFilter' => Helper\FilterExplode::class,
         'ReplaceFilter' => Helper\FilterReplace::class,
+        'ToLowerFilter' => Helper\FilterToLower::class,
+        'ToUpperFilter' => Helper\FilterToUpper::class,
         'RegexMatchFilter' => Helper\FilterRegexMatch::class,
         'ConcatFilter' => Helper\FilterConcat::class,
         'MappingFilter' => Helper\FilterMapping::class,

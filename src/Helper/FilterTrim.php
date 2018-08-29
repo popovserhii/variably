@@ -1,10 +1,10 @@
 <?php
 /**
- * Replace text in string
+ * Trim string
  *
  * @category Popov
  * @package Popov_Variably
- * @author Popov Sergiy <popow.serhii@gmail.com>
+ * @author Serhii Popov <popow.serhii@gmail.com>
  */
 
 namespace Popov\Variably\Helper;
@@ -18,7 +18,7 @@ class FilterTrim extends HelperAbstract implements FilterInterface
     public function filter($value)
     {
         $params = $this->getConfig('params');
-        $charList = $params['char_list'] ?? $params[0] ?? ' ';
+        $charList = $params['charList'] ?? $params[0] ?? ' ';
 
         if (!$value) {
             $value = '';
