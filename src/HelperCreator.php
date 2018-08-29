@@ -39,6 +39,7 @@ class HelperCreator
         'ConcatFilter' => Helper\FilterConcat::class,
         'MappingFilter' => Helper\FilterMapping::class,
         'DateNativeFilter' => Helper\FilterDateNative::class,
+        'DateTimeFilter' => Helper\FilterDateTime::class,
         'TrimFilter' => Helper\FilterTrim::class,
         'Br2nlFilter' => Helper\FilterBr2nl::class,
         'HtmlEntityDecodeFilter' => Helper\FilterHtmlEntityDecode::class,

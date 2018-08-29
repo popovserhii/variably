@@ -18,7 +18,7 @@ class FilterDateNative extends HelperAbstract implements FilterInterface
     protected $defaultConfig = [
         'params' => [
             //'format_from' => '',
-            'format_to' => 'Y-m-d',
+            'formatTo' => 'Y-m-d',
         ],
     ];
 
@@ -28,7 +28,7 @@ class FilterDateNative extends HelperAbstract implements FilterInterface
 
         $locale = $config['params']['locale'];
         $timezone = $config['params']['timezone'] ?? date_default_timezone_get();
-        $to = $config['params']['format_to'];
+        $to = $config['params']['formatTo'];
 
         $df = \IntlDateFormatter::create(
             $locale

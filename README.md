@@ -68,9 +68,44 @@ Concatenate two and more strings.
 ```
 
 
+#### **`dateTime`**
+Convert string to standard date format
+
+```php
+# object notation
+(new FilterDateTime())->filter('12.07.2018');
+(new FilterDateTime())->filter('12.07.2018')->setConfig(['params' => ['formatFrom' => 'd.m.Y']]);
+(new FilterDateTime())->filter('12.07.2018')->setConfig(['params' => ['formatFrom' => 'd.m.Y', 'formatTo' => 'Y-m-d H:i:s']]);
+
+# config notation
+[
+    'fieldName' => ['name' => 'fieldName', '__filter' => ['dateTime']],
+]
+// or
+[
+    'fieldName' => ['name' => 'fieldName', '__filter' => [
+        ['name' => 'dateTime', 'params' => ['formatFrom' => 'd.m.Y']]
+    ]],
+]
+// or
+[
+    'fieldName' => ['name' => 'fieldName', '__filter' => [
+        ['name' => 'dateTime', 'params' => ['formatFrom' => 'd.m.Y', 'formatTo' => 'Y-m-d H:i:s']]
+    ]],
+]
+
+# result
+// 2018-07-12 00:00:00
+```
+
+**Params**
+* `fromartFrom` - input date format
+* `formatTo` - output date format, default is 'Y-m-d H:i:s'
+* `timezone` - date timezone, by default takes system timezone
+
+
 #### **`dateNative`**
-Convert native date or datetime value to standard format.
-> Notice. You must enable *Intl* library for use this functionality.
+Convert native date or datetime value to standard format *(requires Intl library)*.
 
 ```php
 # object notation
@@ -85,19 +120,19 @@ Convert native date or datetime value to standard format.
         ['name' => 'dateNative', 'params' => ['locale' => 'es_ES']]
     ]],
 ]
-//
+// or
 [
     'fieldName' => ['name' => 'fieldName', '__filter' => [
         ['name' => 'dateNative', 'params' => ['locale' => 'fr_FR']]
     ]],
 ]
-//
+// or
 [
     'fieldName' => ['name' => 'fieldName', '__filter' => [
         ['name' => 'dateNative', 'params' => ['locale' => 'en_GB']]
     ]],
 ]
-//
+// or
 [
     'fieldName' => ['name' => 'fieldName', '__filter' => [
         ['name' => 'dateNative', 'params' => ['locale' => 'de_DE']]
@@ -173,7 +208,7 @@ Tell `htmlEntityDecode` to decode it into an encoding that can represent that ch
 
 
 #### **`int`**
-Parse stringable number to int.
+Parse stringable number to int
 
 ```php
 # object notation
@@ -190,6 +225,31 @@ Parse stringable number to int.
 // 4
 // 9945
 // 9945
+```
+
+
+#### **`merge`**
+Merge value to other array. All scalar values will be converted to array, object will be skipped
+
+```php
+# object notation
+(new FilterMerge())->filter(4)->setConfig(['params' => [
+    [5, 10],
+    [20, 30]
+]]); 
+
+# config notation
+[
+    'fieldName' => ['name' => 'fieldName', '__filter' => [
+        ['name' => 'merge', 'params' => [
+            [5, 10],
+            [20, 30]
+        ]]
+    ]]
+],
+
+# result
+// [4, 5, 10, 20, 30]
 ```
 
 
