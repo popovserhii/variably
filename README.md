@@ -352,7 +352,7 @@ Return matched elements in regular expression
 
 # config notation
 [
-    'fieldName' => ['name' => 'fieldName', '__filter' => ['regexMatch:/[\s\w-]+a-star[-\w]*-([0-5])[\s\w-]+/']],
+    'fieldName' => ['name' => 'fieldName', '__filter' => ['regexMatch:/a-star[-\w]*-([0-5])/']],
 ]
 // or
 [
