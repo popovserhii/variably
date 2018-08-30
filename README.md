@@ -147,7 +147,7 @@ Convert native date or datetime value to standard format *(requires Intl library
 ```
 
 **Params**
-* `locale` - [list](https://gist.github.com/jacobbubu/1836273) of locales. May be not full
+* `locale` - [list](https://gist.github.com/jacobbubu/1836273) of locales (may be not full)
 * `format_to` - convert date to format. Default is *Y-m-d*.  
 
 
