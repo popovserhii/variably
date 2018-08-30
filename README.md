@@ -1,4 +1,4 @@
-# The powerful, simple and fast engine for handle variables in string
+# The powerful, simple and fast engine for handle strings and stringable variables
 
 
 **Filters** and **Preparation** give huge flexibility for handle data. 
