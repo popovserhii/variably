@@ -32,6 +32,8 @@ class HelperCreator
         'ShiftFilter' => Helper\FilterShift::class,
         'PopFilter' => Helper\FilterPop::class,
         'ExplodeFilter' => Helper\FilterExplode::class,
+        'NumberFilter' => Helper\FilterNumber::class,
+        'MergeFilter' => Helper\FilterMerge::class,
         'ReplaceFilter' => Helper\FilterReplace::class,
         'ToLowerFilter' => Helper\FilterToLower::class,
         'ToUpperFilter' => Helper\FilterToUpper::class,
