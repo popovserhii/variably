@@ -1,4 +1,4 @@
-# The powerful, simple and fast engine for handle variables in string
+# The powerful, simple and fast engine for handle strings and stringable variables
 
 
 **Filters** and **Preparation** give huge flexibility for handle data. 
@@ -147,7 +147,7 @@ Convert native date or datetime value to standard format *(requires Intl library
 ```
 
 **Params**
-* `locale` - [list](https://gist.github.com/jacobbubu/1836273) of locales. May be not full
+* `locale` - [list](https://stackoverflow.com/a/20818686/1335142) of locales (may be not full)
 * `format_to` - convert date to format. Default is *Y-m-d*.  
 
 
@@ -352,7 +352,7 @@ Return matched elements in regular expression
 
 # config notation
 [
-    'fieldName' => ['name' => 'fieldName', '__filter' => ['regexMatch:/[\s\w-]+a-star[-\w]*-([0-5])[\s\w-]+/']],
+    'fieldName' => ['name' => 'fieldName', '__filter' => ['regexMatch:/a-star[-\w]*-([0-5])/']],
 ]
 // or
 [
