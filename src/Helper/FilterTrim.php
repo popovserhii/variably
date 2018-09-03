@@ -18,7 +18,7 @@ class FilterTrim extends HelperAbstract implements FilterInterface
     public function filter($value)
     {
         $params = $this->getConfig('params');
-        $charList = $params['charList'] ?? $params[0] ?? ' ';
+        $charList = $params['charList'] ?? $params[0] ?? " \t\n\r\0\x0B";
 
         if (!$value) {
             $value = '';

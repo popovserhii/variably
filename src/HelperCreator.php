@@ -49,6 +49,8 @@ class HelperCreator
         'HtmlEntityDecodeFilter' => Helper\FilterHtmlEntityDecode::class,
         'PercentToNumberFilter' => Helper\FilterPercentToNumber::class,
         'PercentageToQuantityFilter' => Helper\FilterPercentageToQuantity::class,
+        'GetFilter' => Helper\FilterGet::class,
+        'StripTagsFilter' => Helper\FilterStripTags::class,
 
         'WatchChangePrepare' => Helper\PrepareWatchChange::class,
     ];
