@@ -15,9 +15,7 @@
 
 namespace Popov\Variably;
 
-/**
- * @todo Move to separate module Variably
- */
+
 class Variably
 {
     protected $variables = [];
@@ -93,9 +91,9 @@ class Variably
         foreach ($path as $part) {
             if (isset($resolved[$part])) {
                 $resolved = $resolved[$part];
-            } else if (method_exists($resolved, 'getData')) {
+            } elseif (method_exists($resolved, 'getData')) {
                 $resolved = $resolved->getData($part);
-            } else if (isset($resolved[$part])) {
+            } elseif (!isset($resolved[$part])) {
                 $resolved = null;
                 break;
             }

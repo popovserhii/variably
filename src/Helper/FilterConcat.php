@@ -20,6 +20,10 @@ class FilterConcat extends HelperAbstract implements FilterInterface
     {
         $params = $this->getConfig('params');
 
+        if (is_array($value)) {
+            $value = implode('', $value);
+        }
+        
         return $value . implode('', $params);
     }
 }

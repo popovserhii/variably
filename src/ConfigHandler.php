@@ -47,10 +47,14 @@ class ConfigHandler
 
     protected $globalConfig = [];
 
-    public function __construct(HelperCreator $helperCreator, Variably $variably, array $config = null)
+    public function __construct(
+        Variably $variably,
+        HelperCreator $helperCreator,
+        array $config = []
+    )
     {
-        $this->helperCreator = $helperCreator;
         $this->variably = $variably;
+        $this->helperCreator = $helperCreator;
         $this->globalConfig = $config;
     }
 
