@@ -15,6 +15,7 @@ class FilterGet extends HelperAbstract implements FilterInterface
     {
         $params = $this->getConfig('params');
         $index = $params[0];
-        return $value[$index];
+
+        return $value[$index] ?? null;
     }
 }
