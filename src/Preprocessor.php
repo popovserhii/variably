@@ -95,7 +95,7 @@ class Preprocessor
         foreach ($collection as $i => $fields) {
             //$collection = array_map(function ($fields) {
             $this->getVariably()->set('fields', $fields);
-            $preFields = [];
+            //$preFields = [];
             foreach ($this->config['fields'] as $name => $variable) {
                 if (is_array($variable)) { // complex variable with __filter & __prepare
                     $values = array_map(function ($value) {
@@ -103,16 +103,16 @@ class Preprocessor
                             ? $this->getVariably()->process($value)
                             : $value;
                     }, $this->cast($variable['value']));
-                    $preFields[$name] = $this->getConfigHandler()->process($this->back($values), $variable);
+                    $fields[$name] = $this->getConfigHandler()->process($this->back($values), $variable);
                 } elseif ($this->getVariably()->is($variable)) {
-                    $preFields[$name] = $this->getVariably()->process($variable);
+                    $fields[$name] = $this->getVariably()->process($variable);
                 } else {
-                    $preFields[$name] = $variable;
+                    $fields[$name] = $variable;
                 }
             };
             //return array_merge({}, /*fields,*/ preFields);
 
-            $collection[$i] = $preFields;
+            $collection[$i] = $fields;
             //}, $collection);
         }
 
