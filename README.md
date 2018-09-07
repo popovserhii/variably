@@ -166,7 +166,20 @@ Explode string by delimeter. As default delimeter is taken " " (space).
 # result
 // ['apple', 'peas', 'strawberry', 'cherry']
 ```
+#### **`multiExplode`**
+Explode string by delimeters. If no delimeters set the " " (space) will be used by default.
+```php
+# object notation
+(new FilterMultiExplode())->filter('apple, peas? strawberry, cherry')->setConfig(['params' => [',','?']]);
 
+# config notation
+[
+    'fieldName' => ['name' => 'fieldName', '__filter' => ['name' => 'multiExplode', 'params' => ['/', '?']]],
+]
+
+# result
+// ['apple', 'peas', 'strawberry', 'cherry']
+```
 
 #### **`float`**
 Parse stringable number to float.

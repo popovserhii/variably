@@ -51,6 +51,7 @@ class HelperCreator
         'PercentageToQuantityFilter' => Helper\FilterPercentageToQuantity::class,
         'GetFilter' => Helper\FilterGet::class,
         'StripTagsFilter' => Helper\FilterStripTags::class,
+        'MultiExplodeFilter' => Helper\FilterMultiExplode::class,
 
         'WatchChangePrepare' => Helper\PrepareWatchChange::class,
     ];
