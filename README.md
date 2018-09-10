@@ -68,6 +68,38 @@ Concatenate two and more strings.
 ```
 
 
+#### **`dateExcel`**
+Convert [*Excel serial number*](https://support.office.com/en-us/article/convert-dates-stored-as-text-to-dates-8df7663e-98e6-4295-96e4-32a67ec0a680) to standard date format
+
+What is an Excel serial number?
+
+Excel stores dates as sequential serial numbers so that they can be used in calculations. 
+By default, January 1, 1900, is serial number 1, and January 1, 2008, is serial number 39448 because it is 39,448 days after January 1, 1900.
+
+```php
+# object notation
+(new FilterDateExcel())->filter('42622');
+(new FilterDateExcel())->filter('42622')->setConfig(['params' => ['formatFrom' => 'Y-m-d']]);
+
+# config notation
+[
+    'fieldName' => ['name' => 'fieldName', '__filter' => ['dateExcel']],
+]
+// or
+[
+    'fieldName' => ['name' => 'fieldName', '__filter' => [
+        ['name' => 'dateExcel', 'params' => ['formatFrom' => 'Y-m-d']]
+    ]],
+]
+
+# result
+// 2016-09-09
+```
+
+**Params**
+* `formatTo` - output date format, default takes 'Y-m-d'
+* `timezone` - date timezone, by default takes system timezone
+
 #### **`dateTime`**
 Convert string to standard date format
 

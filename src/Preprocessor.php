@@ -15,6 +15,8 @@
 
 namespace Popov\Variably;
 
+use Popov\Variably\Helper\FilterCastDeep;
+
 class Preprocessor
 {
     /**
@@ -32,13 +34,17 @@ class Preprocessor
      */
     protected $configHandler;
 
-    protected $cast = [];
+    /**
+     * @var FilterCastDeep
+     */
+    protected $cast;
 
     public function __construct(ConfigHandler $configHandler, array $config = [])
     {
         $this->config = $config;
         $this->variably = $configHandler->getVariably();
         $this->configHandler = $configHandler;
+        $this->cast = new FilterCastDeep();
     }
 
     public function setConfig($config)
@@ -63,76 +69,72 @@ class Preprocessor
         return $this->variably;
     }
 
-    /**
-     * Mark native value as array or not and return array
-     * You must use this in strong order of cast() and back() method otherwise get unexpected behavior
-     *
-     * @param $value
-     * @return mixed
-     */
-    protected function cast($value)
+    public function process($item)
     {
-        $isDeep = $this->isDeep($value);
-        $this->cast[] = $isDeep;
-        $value = $isDeep ? $value : [$value];
-
-        return $value;
-    }
-
-    /**
-     * @param $array
-     * @return array
-     */
-    protected function back($array)
-    {
-        return array_pop($this->cast) ? $array : array_shift($array);
-    }
-
-    public function process($fields)
-    {
-        $collection = $this->cast($fields);
-
-        foreach ($collection as $i => $fields) {
-            //$collection = array_map(function ($fields) {
-            $this->getVariably()->set('fields', $fields);
-            //$preFields = [];
-            foreach ($this->config['fields'] as $name => $variable) {
-                if (is_array($variable)) { // complex variable with __filter & __prepare
-                    $values = array_map(function ($value) {
+        $items = $this->cast->filter($item);
+        foreach ($items as $i => & $item) {
+            #$this->getVariably()->set('item', $item);
+            foreach ($this->config['fields'] as $name => $params) {
+                if (is_array($params)) { // complex variable with __filter & __prepare
+                    /*$values = array_map(function ($value) {
                         return $this->getVariably()->is($value)
                             ? $this->getVariably()->process($value)
                             : $value;
                     }, $this->cast($variable['value']));
-                    $fields[$name] = $this->getConfigHandler()->process($this->back($values), $variable);
-                } elseif ($this->getVariably()->is($variable)) {
-                    $fields[$name] = $this->getVariably()->process($variable);
+                    $item[$name] = $this->getConfigHandler()->process($this->back($values), $variable);*/
+                    $params['name'] = $name;
+                    $value = $params['value'];
+                    if (is_array($params['value'])) {
+                        $value = array_map(function ($value) {
+                            return $this->getVariably()->is($value)
+                                ? $this->getVariably()->process($value)
+                                : $value;
+                        }, $params['value']);
+                    }
+                    $value = $this->getConfigHandler()->process($value, $params);
+                    //$item[$name] = $this->getConfigHandler()->process($value, $variable);
+
+                    $this->correlate($item, $value, $params);
+                } elseif ($this->getVariably()->is($params)) {
+                    $value = $this->getVariably()->process($params);
+                    //$item[$name] = $this->getVariably()->process($params);
+
+                    $this->correlate($item, $value, $name);
                 } else {
-                    $fields[$name] = $variable;
+                    $value = $params;
+                    //$item[$name] = $params;
+
+                    $this->correlate($item, $value, $name);
                 }
             };
-            //return array_merge({}, /*fields,*/ preFields);
-
-            $collection[$i] = $fields;
-            //}, $collection);
+            //$items[$i] = $item;
         }
 
-        //return isArray ? collection : collection.shift();
-        return $this->back($collection);
+        return $this->cast->back($items);
     }
 
-    protected function isDeep($array)
+    /**
+     * Correlate handled value corresponding to inner structure
+     *
+     * @param $handledValue
+     * @param $params
+     * @param $item
+     */
+    public function correlate(& $item, $handledValue, $params)
     {
-        if (!is_array($array)) {
-            return false;
+        if (is_string($params)) {
+            // if field not has any preparations
+            $item[$params] = ($handledValue !== null) ? $handledValue : '';
+        } elseif (isset($params['name']) && is_array($handledValue)) {
+            // if field contains values for different fields of one table
+            $item = array_merge($item, $handledValue);
+        } elseif (isset($params['name'])) {
+            // if field has preparation
+            $item[$params['name']] = ($handledValue !== null) ? $handledValue : '';
+        } else {
+            // if field contains values for multi-dimensional save
+            $item = $handledValue;
         }
-
-        foreach ($array as $elm) {
-            if (is_array($elm)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
 

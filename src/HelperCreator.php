@@ -40,7 +40,9 @@ class HelperCreator
         'ToUpperFilter' => Helper\FilterToUpper::class,
         'RegexMatchFilter' => Helper\FilterRegexMatch::class,
         'ConcatFilter' => Helper\FilterConcat::class,
+        'JsonEncodeFilter' => Helper\FilterJsonEncode::class,
         'MappingFilter' => Helper\FilterMapping::class,
+        'DateExcelFilter' => Helper\FilterDateExcel::class,
         'DateNativeFilter' => Helper\FilterDateNative::class,
         'DateTimeFilter' => Helper\FilterDateTime::class,
         'TrimFilter' => Helper\FilterTrim::class,
@@ -54,6 +56,7 @@ class HelperCreator
         'MultiExplodeFilter' => Helper\FilterMultiExplode::class,
 
         'WatchChangePrepare' => Helper\PrepareWatchChange::class,
+        'XUpdatePrepare' => Helper\PrepareXUpdate::class,
     ];
 
     public function __construct(ContainerInterface $container = null, array $config = null)

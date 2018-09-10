@@ -4,7 +4,7 @@
  *
  * @category Popov
  * @package Popov_Variably
- * @author Popov Sergiy <popow.serhii@gmail.com>
+ * @author Serhii Popov <popow.serhii@gmail.com>
  * @datetime: 01.06.2016 13:34
  */
 namespace Popov\Variably\Helper;
