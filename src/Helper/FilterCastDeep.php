@@ -24,7 +24,7 @@ class FilterCastDeep extends HelperAbstract implements FilterInterface
      */
     public function filter($value)
     {
-        return $this->cast($value);
+        return $this->cast($value, $this->isDeep($value));
     }
 
     /**
@@ -32,27 +32,49 @@ class FilterCastDeep extends HelperAbstract implements FilterInterface
      *
      * Trick: Use new FilterCast instance for each new values for avoid unexpected behavior.
      *
-     * @param $value
+     * @param array $value
+     * @param bool $isDeep
      * @return array
      */
-    public function cast($value)
+    public function cast($value, $isDeep)
     {
-        $isDeep = $this->isDeep($value);
-        $this->casting[] = $isDeep;
         $value = $isDeep ? $value : [$value];
 
         return $value;
     }
 
     /**
+     * Return $array in original structure
+     *
+     * @param array $array Multidimensional array
+     * @param bool $isDeep Is original value multidimensional array
+     * @return array
+     */
+    public function back($array, $isDeep)
+    {
+        return $isDeep ? $array : array_shift($array);
+    }
+
+    /**
+     * Check if array is multidimensional and return first child if it is only one,
+     * otherwise return full multidimensional array.
+     *
      * @param $array
      * @return array
      */
-    public function back($array)
+    public function unwrap($array)
     {
-        return array_pop($this->casting) ? $array : array_shift($array);
+        if ($this->isDeep($array) && count($array) == 1) {
+            return array_shift($array);
+        }
+
+        return $array;
     }
 
+    /**
+     * @param $array
+     * @return bool
+     */
     public function isDeep($array)
     {
         if (!is_array($array)) {

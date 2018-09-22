@@ -3,6 +3,8 @@
  * Exclude item fields from update in database.
  * Notice. Use this Prepare only in tandem with Importer.
  *
+ * By the scene db data simply replace original data.
+ *
  * @category Popov
  * @package Popov_Variably
  * @author Serhii Popov <popow.serhii@gmail.com>
@@ -14,6 +16,11 @@ use Popov\Importer\Importer;
 
 class PrepareXUpdate extends HelperAbstract implements PrepareInterface
 {
+    /**
+     * @var array
+     */
+    protected $fields = [];
+
     protected $defaultConfig = [
         'params' => [
             'exclude' => [],
@@ -26,36 +33,38 @@ class PrepareXUpdate extends HelperAbstract implements PrepareInterface
      */
     public function prepare($value)
     {
-        $cast = $this->cast();
+        $deeper = $this->deeper();
         $variably = $this->getVariably();
         /** @var Importer $importer */
         $importer = $variably->get('importer');
-        $items = $cast->filter($variably->get('fields'));
-
-        $params = $this->getConfig('params');
-        $excluded = (array) $params['exclude'];
+        $this->fields = $deeper->cast($variably->get('fields'), $isDeep = $deeper->isDeep($value));
 
         if ($importer && ($realRows = $importer->getCurrentRealRows())) {
+            $excluded = $this->getExcludedFields();
             foreach ($realRows as $key => $realRow) {
-                if (!$excluded) {
-                    // If do not pass any fields, all fields will be ignored except id
-                    $excluded = array_keys($items[$key]);
-                    unset($excluded[array_search('id', $excluded)]);
-                }
                 foreach ($excluded as $field) {
-                    $items[$key][$field] = $realRow[$field];
+                    $this->fields[$key][$field] = $realRow[$field];
                 }
             }
-            $value = $cast->back($items);
+            $value = $deeper->back($this->fields, $isDeep);
         }
 
         return $value;
     }
 
+    protected function getImporter()
+    {
+        $variably = $this->getVariably();
+        /** @var Importer $importer */
+        $importer = $variably->get('importer');
+
+        return $importer;
+    }
+
     /**
      * @return FilterCastDeep
      */
-    protected function cast()
+    protected function deeper()
     {
         static $cast = null;
         if (!$cast) {
@@ -63,5 +72,28 @@ class PrepareXUpdate extends HelperAbstract implements PrepareInterface
         }
 
         return $cast;
+    }
+    
+    protected function getExcludedFields()
+    {
+        $params = $this->getConfig('params');
+        $excluded = (array) $params['exclude'];
+
+        if (!$excluded) {
+            $importer = $this->getImporter();
+            // If do not pass any fields, all fields will be ignored except id
+            $fields = current($this->fields);
+            unset($fields['id']);
+            $excluded = array_keys($fields);
+
+            if ($preprocessor = $importer->getCurrentFieldsMap('__preprocessor')) {
+                $fields = $preprocessor['fields'];
+                unset($fields['*']);
+                $excluded = array_merge($excluded, array_keys($fields));
+                #$excluded += array_keys($fields);
+            }
+        }
+
+        return $excluded;
     }
 }

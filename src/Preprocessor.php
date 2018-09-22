@@ -37,14 +37,14 @@ class Preprocessor
     /**
      * @var FilterCastDeep
      */
-    protected $cast;
+    protected $deeper;
 
     public function __construct(ConfigHandler $configHandler, array $config = [])
     {
         $this->config = $config;
         $this->variably = $configHandler->getVariably();
         $this->configHandler = $configHandler;
-        $this->cast = new FilterCastDeep();
+        $this->deeper = new FilterCastDeep();
     }
 
     public function setConfig($config)
@@ -71,50 +71,51 @@ class Preprocessor
 
     public function process($item)
     {
-        $items = $this->cast->filter($item);
-        foreach ($items as $i => & $item) {
+        $items = $this->deeper->cast($item, $isDeep = $this->deeper->isDeep($item));
+
+        foreach ($items as & $item) {
             #$this->getVariably()->set('item', $item);
             foreach ($this->config['fields'] as $name => $params) {
                 if (is_array($params)) { // complex variable with __filter & __prepare
-                    /*$values = array_map(function ($value) {
-                        return $this->getVariably()->is($value)
-                            ? $this->getVariably()->process($value)
-                            : $value;
-                    }, $this->cast($variable['value']));
-                    $item[$name] = $this->getConfigHandler()->process($this->back($values), $variable);*/
                     $params['name'] = $name;
-                    $value = $params['value'];
-                    if (is_array($params['value'])) {
-                        $value = array_map(function ($value) {
-                            return $this->getVariably()->is($value)
-                                ? $this->getVariably()->process($value)
-                                : $value;
-                        }, $params['value']);
-                    }
-                    $value = $this->getConfigHandler()->process($value, $params);
-                    //$item[$name] = $this->getConfigHandler()->process($value, $variable);
-
+                    $value = $this->processValue($params['value'], $params);
                     $this->correlate($item, $value, $params);
                 } elseif ($this->getVariably()->is($params)) {
                     $value = $this->getVariably()->process($params);
-                    //$item[$name] = $this->getVariably()->process($params);
-
                     $this->correlate($item, $value, $name);
                 } else {
                     $value = $params;
-                    //$item[$name] = $params;
-
                     $this->correlate($item, $value, $name);
                 }
             };
-            //$items[$i] = $item;
         }
 
-        return $this->cast->back($items);
+        return $this->deeper->back($items, $isDeep);
     }
 
     /**
-     * Correlate handled value corresponding to inner structure
+     * @param $value
+     * @param $params
+     * @return mixed
+     */
+    public function processValue($value, $params)
+    {
+        $values = $this->deeper->cast($value, $isDeep = is_array($value));
+
+        foreach ($values as & $val) {
+            $val = $this->getVariably()->is($val)
+                ? $this->getVariably()->process($val)
+                : $val;
+        }
+
+        $values = $this->deeper->back($values, $isDeep);
+        $prepared = $this->getConfigHandler()->process($values, $params);
+
+        return $prepared;
+    }
+
+    /**
+     * Correlate handled value corresponding to its inner structure
      *
      * @param $handledValue
      * @param $params
