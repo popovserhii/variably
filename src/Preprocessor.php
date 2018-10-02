@@ -87,6 +87,8 @@ class Preprocessor
                     $value = $params;
                     $this->correlate($item, $value, $name);
                 }
+
+                $this->updateVariablyItem($items, $isDeep);
             };
         }
 
@@ -136,6 +138,12 @@ class Preprocessor
             // if field contains values for multi-dimensional save
             $item = $handledValue;
         }
+    }
+
+    protected function updateVariablyItem($item, $isDeep)
+    {
+        $item = $this->deeper->back($item, $isDeep);
+        $this->configHandler->getVariably()->set('fields', $item);
     }
 }
 
