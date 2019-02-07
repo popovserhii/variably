@@ -22,6 +22,6 @@ class FilterJsonEncode extends HelperAbstract implements FilterInterface
         $options = $params[0] ?? 0;
         //$options = isset($params[0]) ? $params[0] : 0;
 
-        return json_encode($options);
+        return json_encode($value, $options);
     }
 }
