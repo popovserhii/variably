@@ -19,6 +19,9 @@ class FilterJsonEncode extends HelperAbstract implements FilterInterface
     public function filter($value)
     {
         $params = $this->getConfig('params');
-        return (empty($params) ? json_encode($value) : json_encode($value, $params));
+        $options = $params[0] ?? 0;
+        //$options = isset($params[0]) ? $params[0] : 0;
+
+        return json_encode($value, $options);
     }
 }
