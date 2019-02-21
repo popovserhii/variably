@@ -40,6 +40,7 @@ class HelperCreator
         'ToUpperFilter' => Helper\FilterToUpper::class,
         'RegexMatchFilter' => Helper\FilterRegexMatch::class,
         'ConcatFilter' => Helper\FilterConcat::class,
+        'CastDeepFilter' => Helper\FilterCastDeep::class,
         'JsonEncodeFilter' => Helper\FilterJsonEncode::class,
         'MappingFilter' => Helper\FilterMapping::class,
         'DateExcelFilter' => Helper\FilterDateExcel::class,
