@@ -128,10 +128,10 @@ class Preprocessor
         if (is_string($params)) {
             // if field not has any preparations
             $item[$params] = ($handledValue !== null) ? $handledValue : '';
-        } elseif (isset($params['name']) && is_array($handledValue)) {
+        } elseif (isset($params['name']) && $params['name'] != '*' && is_array($handledValue)) {
             // if field contains values for different fields of one table
             $item = array_merge($item, $handledValue);
-        } elseif (isset($params['name'])) {
+        } elseif (isset($params['name']) && $params['name'] != '*') {
             // if field has preparation
             $item[$params['name']] = ($handledValue !== null) ? $handledValue : '';
         } else {
