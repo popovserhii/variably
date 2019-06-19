@@ -3,32 +3,30 @@
  * Enter description here...
  *
  * @category Popov
- * @package Popov_<package>
- * @author Serhii Popov <popov@agere.com.ua>
- * @datetime: 10.04.2017 14:00
+ * @package Popov_Variable
+ * @author Serhii Popov <popow.serhii@gmail.com>
  */
-namespace PopovTest\Importer\Adapter;
+namespace PopovTest\Variably\Adapter;
 
 use PHPUnit\Framework\TestCase as TestCase;
-use Popov\Variably\Helper\FilterDate;
+use Popov\Variably\Helper\FilterDateTime;
 
-class FilterDateTest extends TestCase
+class FilterDateTimeTest extends TestCase
 {
     /**
-     * @param $format
+     * @param $formatFrom
      * @param $date
      * @param $expected
-     *
      * @dataProvider datesProvider
      */
-    public function testConvertDateFromDifferentLocales($format, $date, $expected)
+    public function testConvertDateFromDifferentLocales($formatFrom, $formatTo, $date, $expected)
     {
-        $filter = new FilterDate();
+        $filter = new FilterDateTime();
 
         // echo date('l jS \of F Y h:i:s A');
-        //$filter->setStashConfig(['params' => ['format_from' => 'F d, Y']]);
-        $filter->setStashConfig(['params' => ['format_from' => $format]]);
-
+        // @todo array_merge_recursive is not effective such as it merge config $filter->setStashConfig(['params' => ['formatTo' => 'Y-m-d']])
+        // in wrong way ['formatTo' => ['Y-m-d H:i:s', 'Y-m-d']], but this must be as ['formatTo' => 'Y-m-d']
+        $filter->setStashConfig(['params' => ['formatTo' => $formatTo, 'formatFrom' => $formatFrom]]);
         // es - 20 de enero de 2018
         // fr - 2 février 2018
         // com - May 16, 2016
@@ -49,7 +47,7 @@ class FilterDateTest extends TestCase
     public static function datesProvider()
     {
         return [
-            ['d F Y', '20 de enero de 2018', '2018-01-20'],
+            ['d F Y', 'Y-m-d', '14 June 2019', '2019-06-16'],
             #['d F Y', '2 février 2018', '2018-02-2'],
             #['F d, Y', 'May 16, 2016', '2016-05-16'],
             #['d F Y', '27 June 2018', '2018-06-27'],

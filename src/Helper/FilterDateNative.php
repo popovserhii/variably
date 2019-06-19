@@ -17,7 +17,6 @@ class FilterDateNative extends HelperAbstract implements FilterInterface
 {
     protected $defaultConfig = [
         'params' => [
-            //'format_from' => '',
             'formatTo' => 'Y-m-d',
         ],
     ];

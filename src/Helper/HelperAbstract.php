@@ -46,6 +46,8 @@ class HelperAbstract
     {
         // define getter for default config
         $this->stashConfig = $this->defaultConfig
+            // @todo array_merge_recursive is not effective such as it merge config $filter->setStashConfig(['params' => ['formatTo' => 'Y-m-d']])
+            // in wrong way ['formatTo' => ['Y-m-d H:i:s', 'Y-m-d']], but this must be as ['formatTo' => 'Y-m-d']
             ? array_merge_recursive($this->defaultConfig, $config)
             : $config;
 
